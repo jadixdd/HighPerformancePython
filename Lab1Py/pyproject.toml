@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "lab01-laplace"
+version = "0.1.0"
+description = "Lab 1: Dirichlet problem for Laplace's equation"
+authors = ["Student"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.26.4"
+matplotlib = "^3.8.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.6"
+mypy = "^1.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
