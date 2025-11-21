@@ -13,7 +13,7 @@ DEFAULT_PLOT_EPS: float = 0.001
 
 Numeric = Union[float, NDArray[np.float64]]
 
-# Граничные условия для варианта 12
+# Граничные условия 
 
 def f1(y: Numeric) -> Numeric:
     """u(0, y) - Левая граница"""
@@ -41,7 +41,7 @@ def initialize_grid(n: int) -> np.ndarray:
     N = n + 1
     U = np.zeros((N, N), dtype=float)
     
-    # Векторы координат
+
     x = np.linspace(0, 1, N)
     y = np.linspace(0, 1, N)
 
@@ -69,13 +69,13 @@ def solve_gauss_seidel_python(
         U_old = U.copy()
         max_diff = 0.0
 
-        # Обновление "внутренних" узлов (in-place)
+        # Обновление внутренних
         for j in range(1, n):
             for i in range(1, n):
                 U[j, i] = (U[j, i+1] + U[j, i-1] +
                            U[j+1, i] + U[j-1, i]) / 4.0
 
-        # Проверка сходимости (сравнение с U_old)
+        # Проверка сходимости
         for j in range(1, n):
             for i in range(1, n):
                 diff = abs(U[j, i] - U_old[j, i])
@@ -108,15 +108,13 @@ def solve_gauss_seidel_numpy(
     while True:
         U_old = U.copy()
         
-        # Обновление "внутренних" узлов (in-place) - ТРЕБУЕТ ЦИКЛОВ ДЛЯ Г-З
+
         for j in range(1, n):
             for i in range(1, n):
-                # Обновление с использованием новых значений (Гаусс-Зейдель)
+
                 U[j, i] = (U[j, i+1] + U[j, i-1] +
                            U[j+1, i] + U[j-1, i]) / 4.0
 
-        # NumPy проверка сходимости (быстрое векторизованное сравнение)
-        # Сравниваем только внутренние узлы для точности
         max_diff = np.max(np.abs(U[1:n, 1:n] - U_old[1:n, 1:n]))
         
         iterations += 1
@@ -156,14 +154,11 @@ def plot_solution(U: np.ndarray, h: float, eps: float, filename: str):
     print(f"График сохранен в {filename}")
     plt.close(fig)
 
-# --- Основная функция (запуск и генерация отчета) ---
 
 def main():
     """
     Главная функция: запускает симуляции и генерирует отчет.
     """
-    # Структуры для хранения результатов
-    # results[h_index][eps_index] = "время (итерации)"
     results_py = [["" for _ in EPSILON_VALUES] for _ in H_VALUES]
     results_np = [["" for _ in EPSILON_VALUES] for _ in H_VALUES]
     plot_files = []
@@ -183,7 +178,6 @@ def main():
             U_np, iter_np, time_np = solve_gauss_seidel_numpy(n, eps)
             results_np[i][j] = f"{time_np:.4f}c ({iter_np} итер.)"
 
-            # Генерируем график для заданного эпсилон
             if eps == DEFAULT_PLOT_EPS:
                 filename = f"solution_h_{str(h).replace('.', '_')}.png"
                 plot_files.append((h, filename))

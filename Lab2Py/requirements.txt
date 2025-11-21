@@ -1,0 +1,7 @@
+numpy
+matplotlib
+numba
+pybind11
+ruff
+mypy
+setuptools
