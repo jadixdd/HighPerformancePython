@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  poetry_app:
+    build:
+      context: ./Lab1Py
+      dockerfile: Dockerfile
+    image: laplace-poetry:latest
+    container_name: poetry-laplace
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  pipenv_app:
+    build:
+      context: ./
+      dockerfile: ./Lab2Py/Dockerfile
+    image: laplace-pipenv:latest
+    container_name: pipenv-laplace
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python main.py
